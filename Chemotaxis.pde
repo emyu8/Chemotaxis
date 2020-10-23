@@ -1,17 +1,16 @@
-PFont font;
 
 //declare bacteria variables here  
 Bacteria [] spiders = new Bacteria [5];
 float score = 0;
 float oldScore = 0;
+float highScore = 0;
  void setup()   
  {     
    size(1280, 650); 
    background(150);
    for(int i = 0; i < spiders.length; i++){
-     spiders[i] = new Bacteria(i*25+50, 100);
+     spiders[i] = new Bacteria((int)(Math.random()*1280), 100);
    }
-   font = createFont("fofbb_reg.ttf", 32);
  }   
  void draw()   
  {    
@@ -36,11 +35,12 @@ float oldScore = 0;
    }
    stroke(255);
    fill(255);
-   rect(0, 0, 200, 50);
+   rect(0, 0, 200, 70);
    stroke(0);
-   textFont(font);
    fill(0);
-   text("score: "+score, 10, 40);
+   textSize(25);
+   text("Score: "+score, 10, 20);
+   text("Highscore: "+highScore, 10, 45);
    score = round((millis()/1000.0) - oldScore);
  }  
  class Bacteria    
@@ -93,11 +93,20 @@ float oldScore = 0;
      
      if(dist(mouseX, mouseY, spiderX, spiderY) < 10){
        oldScore = millis()/1000.0;
+       for(int i = 0; i < spiders.length; i++){
+       spiders[i] = new Bacteria((int)(Math.random()*1280), 100);
+       }
+       if(score > highScore){
+       highScore = score;
+   }
      }
    }
    
    //lots of java!   
  }    
  void mousePressed(){
+   if(score > highScore){
+     highScore = score;
+   }
    oldScore = millis()/1000.0;
  }
